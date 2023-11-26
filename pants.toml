@@ -1,0 +1,96 @@
+[GLOBAL]
+pants_version = "2.18.0"
+
+backend_packages = [ 
+  "pants.backend.docker",
+  # Python
+  "pants.backend.build_files.fmt.black",
+  "pants.backend.python",
+  "pants.backend.experimental.python",
+  "pants.backend.experimental.python.lint.ruff",
+  "pants.backend.python.lint.black",
+  "pants.backend.python.lint.docformatter",
+  "pants.backend.python.typecheck.mypy",
+  # Visibility rules between packages
+  "pants.backend.experimental.visibility",
+]
+
+[anonymous-telemetry]
+enabled = false
+
+[source]
+root_patterns = ["/", "src/*", "app/*", "3rdparty/*"]
+
+[pex-cli]
+# I need this version in order to work with Python3.12
+version = "v2.1.143"
+known_versions = [
+  "v2.1.143|macos_arm64|7dba8776000b4f75bc9af850cb65b2dc7720ea211733e8cb5243c0b210ef3c19|4194291",
+  "v2.1.143|macos_x86_64|7dba8776000b4f75bc9af850cb65b2dc7720ea211733e8cb5243c0b210ef3c19|4194291",
+  "v2.1.143|linux_x86_64|7dba8776000b4f75bc9af850cb65b2dc7720ea211733e8cb5243c0b210ef3c19|4194291",
+  "v2.1.143|linux_arm64|7dba8776000b4f75bc9af850cb65b2dc7720ea211733e8cb5243c0b210ef3c19|4194291"
+]
+
+[generate-lockfiles]
+diff = true
+
+[python-infer]
+use_rust_parser = true
+
+[python]
+pip_version = "latest"
+enable_resolves = true
+default_resolve = "python-default"
+interpreter_constraints = ["==3.12.*"]
+
+[python.resolves]
+python-default = "3rdparty/python/python-default.lock"
+python-dev = "3rdparty/python/python-dev.lock"
+
+[pytest]
+args = ["--maxfail=3"]
+install_from_resolve = "python-default"
+
+[mypy]
+install_from_resolve = "python-default"
+config = "pyproject.toml"
+config_discovery = false
+
+
+[black]
+install_from_resolve = "python-dev"
+
+[docformatter]
+install_from_resolve = "python-dev"
+
+[ruff]
+install_from_resolve = "python-dev"
+
+[setuptools]
+install_from_resolve = "python-dev"
+
+[ipython]
+install_from_resolve = "python-dev"
+
+[repl]
+shell = "ipython"
+
+[setup-py-generation]
+first_party_dependency_version_scheme = "compatible"
+
+[export]
+py_resolve_format = "symlinked_immutable_virtualenv"
+
+[python-bootstrap]
+search_path = [
+    # This will use all interpreters in `$(pyenv root)/versions`.
+    "<PYENV>",
+     # Brew usually installs Python here.
+    "/opt/homebrew/bin",
+    "/usr/local/bin",
+    "/usr/bin",
+]
+
+[environments-preview.names]
+local = "//:local"
+linux = "//:docker"

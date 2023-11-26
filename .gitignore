@@ -1,0 +1,9 @@
+.DS_Store
+__pycache__
+
+.pants.d
+.pids
+.vscode/settings.json
+dist
+.pants.rc
+.env

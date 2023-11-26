@@ -1,0 +1,101 @@
+[tool.black]
+line-length = 120
+exclude = '''
+/(
+  # These would already be ignored by pants, but having them here allows for manually running Black if one so wishes.
+  | \.git
+  | \.mypy_cache
+  | dist
+  | \.pants\.d
+  | virtualenvs
+  | venv
+  | .venv
+  # This file intentionally contains invalid syntax
+  # It trips black up.
+  | compilation_failure
+)/
+'''
+target-version = ['py310', 'py311', 'py312']
+
+[tool.docformatter]
+black = true
+non-strict = false
+
+[tool.ruff]
+select = ["B", "C", "E", "F", "W"]
+
+line-length = 120
+target-version = "py312"
+exclude = ["dist", "BUILD", "**/BUILD"]
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+[tool.pytest.ini_options]
+addopts = ["--strict-markers"]
+markers = [
+  "integration: marks tests that interact with multiple components (deselect with '-m \"not integration\"')",
+  "slow: marks tests as slow (deselect with '-m \"not slow\"')"
+]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+namespace_packages = true
+strict = true
+explicit_package_bases = true
+mypy_path = "src/python:app/python"
+exclude = '''(?x)(
+    ^BUILD$
+)'''
+
+allow_untyped_globals = false
+allow_redefinition = false
+strict_equality = true
+no_implicit_optional = true
+implicit_reexport = false
+local_partial_types = true
+
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_return_any = true
+warn_redundant_casts = true
+warn_unreachable = true
+
+# Error output
+show_column_numbers = true
+show_error_context = true
+show_error_codes = true
+show_traceback = true
+pretty = true
+color_output = true
+error_summary = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
+[tool.pyright]
+include = ["src", "app"]
+exclude = [
+  "**/__pycache__",
+  "**/BUILD"
+]
+ignore = [
+  "**/BUILD",
+]
+stubPath = "mypy-stubs/python-default"
+
+useLibraryCodeForTypes = true
+
+typeCheckingMode = "strict"
+
+reportMissingTypeStubs = "warning"
+reportUnknownVariableType = "warning"
+reportUnknownMemberType = "warning"
+reportUnknownArgumentType = "warning"
+reportUnusedClass = "warning"
+reportUnusedFunction = "warning"
+reportUnusedVariable = "warning"
+reportPropertyTypeMismatch = "error"

@@ -1,0 +1,7 @@
+pytest
+Faker
+mypy
+
+pydantic
+typer
+sqlalchemy
