@@ -1,5 +1,7 @@
 # Template for Python projects using Pants 👖
 
+See [Pants](https://pantsbuild.org).
+
 Features:
 
 - Python 3.12
