@@ -19,8 +19,8 @@ There's a script for generating VSCode settings: `./scripts/gen-vscode-settings.
 
 ![](./.github/files/pytest.png)
 ![](./.github/files/pytest-fail.png)
-![](./.github/files/pytest-format.png)
-![](./.github/files/environments.png)
+![](./.github/files/pytest-format.gif)
+![](./.github/files/environments.gif)
 
 
 
